@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kanban Board</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
+    .board { display: flex; gap: 20px; }
+    .column { background: white; border-radius: 10px; padding: 10px; width: 30%; }
+    .column h2 { text-align: center; }
+    .card { background: #e6e6e6; padding: 10px; margin: 10px 0; border-radius: 6px; cursor: grab; }
+  </style>
+</head>
+<body>
+  <h1>Project Management Kanban</h1>
+  <div class="board">
+    <div class="column" id="todo">
+      <h2>To Do</h2>
+      <div class="card" draggable="true">Set up project repo</div>
+      <div class="card" draggable="true">Draft project scope</div>
+    </div>
+    <div class="column" id="inprogress">
+      <h2>In Progress</h2>
+      <div class="card" draggable="true">ETL process design</div>
+    </div>
+    <div class="column" id="done">
+      <h2>Done</h2>
+      <div class="card" draggable="true">Kickoff meeting</div>
+    </div>
+  </div>
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const columns = document.querySelectorAll('.column');
+    let dragged = null;
+
+    cards.forEach(card => {
+      card.addEventListener('dragstart', () => { dragged = card; });
+      card.addEventListener('dragend', () => { dragged = null; });
+    });
+
+    columns.forEach(column => {
+      column.addEventListener('dragover', e => e.preventDefault());
+      column.addEventListener('drop', () => {
+        if (dragged) column.appendChild(dragged);
+      });
+    });
+  </script>
+</body>
+</html>
